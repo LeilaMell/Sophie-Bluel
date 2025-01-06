@@ -166,11 +166,27 @@ function displayAdmin(){
 
 }
 
-document.querySelector(".logout").addEventListener("click", function(e){
-    e.preventDefault()
-    localStorage.removeItem("token")
-    window.location.href = window.location.href;
-})
+function logoutFunction(){
+    document.querySelector(".logout").addEventListener("click", function(e){
+        e.preventDefault()
+        localStorage.removeItem("token")
+
+        let edition = document.querySelectorAll(".edition")
+        document.querySelector(".button-all").classList.remove("d-none")
+
+        let logout = document.querySelector(".logout")
+        logout.classList.add("d-none")
+        document.querySelector(".login").classList.remove("d-none")
+
+        edition.forEach(function(element){
+            element.classList.add("d-none")
+            element.classList.remove("d-flex")
+
+        })
+        fetchCategory();
+    })
+}
+logoutFunction()
 
 if(localStorage.getItem("token") === null){
     fetchCategory();
@@ -280,17 +296,25 @@ addPhoto.addEventListener("change", function(e){
     let preview = document.querySelector('.preview');
     let file = document.querySelector('input[type=file]').files[0];
     let reader = new FileReader();
-    
-    reader.onloadend = function () {
-        preview.src = reader.result;
-    }
-    
-    if (file) {
-        reader.readAsDataURL(file);
-    } else {
-        preview.src = "";
-    }
-      
+
+    let maxSize = 4 * 1024 * 1024;
+    if (file.size > maxSize){
+        alert("Image trop volumineuse, la limite de la taille de l'image est de 4mo");
+        divAddPhoto.classList.add("d-flex")
+        divAddPhoto.classList.remove("d-none")
+        divImage.classList.add("d-none")
+        divImage.classList.remove("d-flex")
+    }else{
+        reader.onloadend = function () {
+            preview.src = reader.result;
+        }
+        
+        if (file) {
+            reader.readAsDataURL(file);
+        } else {
+            preview.src = "";
+        }
+      }
 })
 
 
@@ -368,6 +392,9 @@ document.getElementById("valider").addEventListener("click", async function(e){
         enableBtn()
     }
     
+    // création du nouveau travail dans la gallerie
+    //dans la modale
+    // + les trashbuttons
 
     let newWorkGallery = document.createElement("figure");
     let newWorkImageGallery = document.createElement("img");

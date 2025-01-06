@@ -219,6 +219,11 @@ button:hover{
 	background-color: #1D6154;
 }
 
+button:focus{
+	color: #fffef8;
+	background-color: #1D6154;
+}
+
 /*login page*/
 #contact a{
 	color: black;
@@ -268,6 +273,11 @@ body{
 	border: none;
 	background-color: white;
 	color: #B1663C;
+}
+
+.logout :focus{
+	background-color: white;
+	color: black;
 }
 
 #edition{
